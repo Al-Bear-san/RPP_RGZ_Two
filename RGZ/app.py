@@ -10,11 +10,11 @@ app = Flask(__name__)
 
 
 app.secret_key = '123'
-user_db = 'jvaviy'
+user_db = 'postgres'
 host_ip = '127.0.0.1'
 host_port = '5432'
-database_name = 'rgz'
-password = '123'
+database_name = 'rpp_rgz'
+password = 'postgres'
 
 app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://{user_db}:{password}@{host_ip}:{host_port}/{database_name}'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -57,10 +57,13 @@ def get_items():
         } for item in items
     ])
 
-@app.route('/items/<int:item_id>', methods=['PUT'])
+@app.route('/items/<int:item_id>', methods=['PUT']) 
 def update_item(item_id):
     data = request.get_json()
-    item = Items.query.get_or_404(item_id)
+    item = Items.query.get(item_id)
+    
+    if item is None:
+        return jsonify({"error": "Item not found."}), 404 
     try:
         if 'quantity' in data and data['quantity'] < 0:
             return jsonify({"error": "Quantity cannot be negative."}), 400

@@ -27,22 +27,34 @@ def get_items_by_category():
     print("Get Items by Category Response:", response.json(), response.status_code)
 
 # 4. PUT /items/<item_id> - Обновление товара
-def update_item(item_id):
-    url = f"{BASE_URL}/items/{item_id}"
-    data = {
-        "name": "Updated Laptop",
-        "quantity": 5,
-        "price": 1100,
-        "category": "Electronics"
-    }
+def update_item(item_id): 
+    url = f"{BASE_URL}/items/{item_id}" 
+    data = { 
+        "name": "Updated Laptop", 
+        "quantity": 5, 
+        "price": 1100, 
+        "category": "Electronics" 
+    } 
     response = requests.put(url, json=data)
-    print("Update Item Response:", response.json(), response.status_code)
+    
+    print("Update Item Response:", response.status_code)
+    # Проверка, если статус код 200 (ОК) 
+    if response.status_code == 200: 
+        print("Update Item Response JSON:", response.json()) 
+    else:
+        print(f"Error: Received status code {response.status_code}, message: {response.text}")
 
-# 5. DELETE /items/<item_id> - Удаление товара
-def delete_item(item_id):
-    url = f"{BASE_URL}/items/{item_id}"
+
+def delete_item(item_id): 
+    url = f"{BASE_URL}/items/{item_id}" 
     response = requests.delete(url)
-    print("Delete Item Response:", response.json(), response.status_code)
+    
+    print("Delete Item Response:", response.status_code)
+    # Проверка, если статус код 200 (ОК)
+    if response.status_code == 200: 
+        print("Delete Item Response JSON:", response.json())
+    else:
+        print(f"Error: Received status code {response.status_code}, message: {response.text}")
 
 # 6. GET /reports/summary - Генерация отчета
 def generate_report():
